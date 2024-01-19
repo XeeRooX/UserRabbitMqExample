@@ -1,6 +1,6 @@
 ﻿namespace UserRabbitMqExample.Producer.Dtos
 {
-    public class GetUserDto
+    public class GetUserInDto
     {
         public int Id { get; set; }
     }

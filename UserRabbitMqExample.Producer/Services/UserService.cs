@@ -10,26 +10,32 @@ namespace UserRabbitMqExample.Producer.Services
         {
             _dbContext = dbContext;
         }
-        public async Task<User> Add(User user)
+        public async Task<User> AddAsync(User user)
         {
             var result = await _dbContext.Users.AddAsync(user);
             return result.Entity;
         }
 
-        public async Task<User> Delete(int id)
+        public async Task<User> DeleteAsync(int id)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
             return user!;
         }
 
-        public Task<User> Get(int id)
+        public async Task<User?> GetAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Users.FindAsync(id);
         }
 
-        public Task<User> Update(User user)
+        public bool IsExistsById(int id)
         {
-            throw new NotImplementedException();
+            return _dbContext.Users.Find(id) != null!;
+        }
+
+        public async Task<User> UpdateAsync(User user)
+        {
+            var result = _dbContext.Update(user);
+            return result.Entity;
         }
     }
 }

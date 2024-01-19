@@ -4,9 +4,10 @@ namespace UserRabbitMqExample.Producer.Services
 {
     public interface IUserService
     {
-        Task<User> Add(User user);
-        Task<User> Update(User user);
-        Task<User> Delete(int id);
-        Task<User> Get(int id);
+        Task<User> AddAsync(User user);
+        Task<User> UpdateAsync(User user);
+        Task<User> DeleteAsync(int id);
+        Task<User?> GetAsync(int id);
+        bool IsExistsById(int id);
     }
 }

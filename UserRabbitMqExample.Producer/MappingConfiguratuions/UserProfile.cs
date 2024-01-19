@@ -9,6 +9,8 @@ namespace UserRabbitMqExample.Producer.MappingConfiguratuions
         public UserProfile() 
         {
             CreateMap<AddUserDto, User>();
+            CreateMap<User, GetUserOutDto>();
+            CreateMap<EditUserDto, User>();
         }
     }
 }
