@@ -13,12 +13,14 @@ namespace UserRabbitMqExample.Producer.Services
         public async Task<User> AddAsync(User user)
         {
             var result = await _dbContext.Users.AddAsync(user);
+            await _dbContext.SaveChangesAsync();
             return result.Entity;
         }
 
         public async Task<User> DeleteAsync(int id)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
+            await _dbContext.SaveChangesAsync();
             return user!;
         }
 
@@ -35,6 +37,7 @@ namespace UserRabbitMqExample.Producer.Services
         public async Task<User> UpdateAsync(User user)
         {
             var result = _dbContext.Update(user);
+            await _dbContext.SaveChangesAsync();
             return result.Entity;
         }
     }
