@@ -1,7 +1,8 @@
 ﻿namespace UserRabbitMqExample.Producer.RabbitMQ
 {
-    public interface IMessabeProducer
+    public interface IMessageProducer
     {
         void SendMessabe<T>(T message);
+        void SendMessabe<T>(T message, string textMessage);
     }
 }

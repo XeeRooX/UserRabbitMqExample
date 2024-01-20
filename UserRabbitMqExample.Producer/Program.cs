@@ -1,4 +1,5 @@
 using UserRabbitMqExample.Producer.Extensions;
+using UserRabbitMqExample.Producer.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,12 +14,11 @@ builder.Services.RegisterCustomServices(builder);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+InitializationDb.Migrate(app);
+
+app.UseSwagger();
+
+app.UseSwaggerUI();
 
 app.UseAuthorization();
 

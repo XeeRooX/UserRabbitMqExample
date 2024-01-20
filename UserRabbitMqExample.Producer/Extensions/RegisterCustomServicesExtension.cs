@@ -3,6 +3,7 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using UserRabbitMqExample.Producer.Models;
 using UserRabbitMqExample.Producer.Services;
+using UserRabbitMqExample.Producer.RabbitMQ;
 
 namespace UserRabbitMqExample.Producer.Extensions
 {
@@ -21,6 +22,7 @@ namespace UserRabbitMqExample.Producer.Extensions
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserCommandsService, UserCommandsService>();
             services.AddScoped<IUserQueriesService, UserQueriesService>();
+            services.AddScoped<IMessageProducer, MessageProducer>();
         }
     }
 }

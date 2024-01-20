@@ -8,17 +8,17 @@ EXPOSE 8080
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["UserRabbitMqExample/UserRabbitMqExample.csproj", "UserRabbitMqExample/"]
-RUN dotnet restore "./UserRabbitMqExample/./UserRabbitMqExample.csproj"
+COPY ["UserRabbitMqExample.Producer/UserRabbitMqExample.Producer.csproj", "UserRabbitMqExample.Producer/"]
+RUN dotnet restore "./UserRabbitMqExample.Producer/./UserRabbitMqExample.Producer.csproj"
 COPY . .
-WORKDIR "/src/UserRabbitMqExample"
-RUN dotnet build "./UserRabbitMqExample.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/UserRabbitMqExample.Producer"
+RUN dotnet build "./UserRabbitMqExample.Producer.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./UserRabbitMqExample.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./UserRabbitMqExample.Producer.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "UserRabbitMqExample.dll"]
+ENTRYPOINT ["dotnet", "UserRabbitMqExample.Producer.dll"]

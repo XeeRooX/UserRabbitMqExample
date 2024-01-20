@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using UserRabbitMqExample.Producer.Dtos;
+using UserRabbitMqExample.Producer.RabbitMQ;
 using UserRabbitMqExample.Producer.Services;
 
 namespace UserRabbitMqExample.Producer.Controllers
@@ -8,10 +9,13 @@ namespace UserRabbitMqExample.Producer.Controllers
     {
         private readonly IUserCommandsService _userCommands;
         private readonly IUserQueriesService _userQueries;
-        public UserController(IUserQueriesService userQueries, IUserCommandsService userCommandsService)
+        private readonly IMessageProducer _messageProducer;
+        public UserController(IUserQueriesService userQueries, IUserCommandsService userCommandsService, 
+            IMessageProducer messageProducer)
         {
             _userQueries = userQueries;
             _userCommands = userCommandsService;
+            _messageProducer = messageProducer;
         }
 
         [HttpPost("get")]
@@ -25,6 +29,7 @@ namespace UserRabbitMqExample.Producer.Controllers
         public async Task<IActionResult> add(AddUserDto user)
         {
             var result = await _userCommands.Add(user);
+            _messageProducer.SendMessabe(result, "User created");
             return Ok(result);
         }
 
@@ -39,6 +44,7 @@ namespace UserRabbitMqExample.Producer.Controllers
         public async Task<IActionResult> Delete(GetUserInDto user)
         {
             var result = await _userCommands.Delete(user);
+            _messageProducer.SendMessabe(result, "User deleted");
             return Ok(result);
         }
     }
