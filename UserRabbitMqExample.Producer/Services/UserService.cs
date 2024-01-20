@@ -19,7 +19,8 @@ namespace UserRabbitMqExample.Producer.Services
 
         public async Task<User> DeleteAsync(int id)
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
+            var user = (await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == id))!;
+            _dbContext.Users.Remove(user);
             await _dbContext.SaveChangesAsync();
             return user!;
         }
